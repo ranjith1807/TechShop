@@ -16,7 +16,7 @@ const ProductListScreen = () => {
         // We define the function INSIDE useEffect to prevent crashes
         const fetchProducts = async () => {
             try {
-                const { data } = await axios.get('http://localhost:5000/api/products');
+                const { data } = await axios.get('https://techshop-gj1f.onrender.com/api/products');
                 setProducts(data);
                 setLoading(false);
             } catch (error) {
@@ -35,7 +35,7 @@ const ProductListScreen = () => {
     const deleteHandler = async (id) => {
         if (window.confirm('Are you sure you want to delete this product?')) {
             try {
-                await axios.delete(`http://localhost:5000/api/products/${id}`);
+                await axios.delete(`https://techshop-gj1f.onrender.com/api/products/${id}`);
                 alert('Product Deleted');
                 setRefresh(!refresh); // Toggle this to reload the list automatically
             } catch (error) {
@@ -48,7 +48,7 @@ const ProductListScreen = () => {
     const createProductHandler = async () => {
         if (window.confirm('Create a new product?')) {
             try {
-                await axios.post('http://localhost:5000/api/products', { user: userInfo._id });
+                await axios.post('https://techshop-gj1f.onrender.com/api/products', { user: userInfo._id });
                 alert('Product Created! Click Edit to add details.');
                 setRefresh(!refresh); // Toggle this to reload the list automatically
             } catch (error) {

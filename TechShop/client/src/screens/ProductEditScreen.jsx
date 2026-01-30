@@ -23,7 +23,7 @@ const ProductEditScreen = () => {
         } else {
             const fetchProduct = async () => {
                 try {
-                    const { data } = await axios.get(`http://localhost:5000/api/products/${productId}`);
+                    const { data } = await axios.get(`https://techshop-gj1f.onrender.com/api/products/${productId}`);
                     setName(data.name);
                     setPrice(data.price);
                     setImage(data.image);
@@ -42,7 +42,7 @@ const ProductEditScreen = () => {
     const submitHandler = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`http://localhost:5000/api/products/${productId}`, {
+            await axios.put(`https://techshop-gj1f.onrender.com/api/products/${productId}`, {
                 name,
                 price,
                 image,

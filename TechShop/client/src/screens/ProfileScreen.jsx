@@ -15,7 +15,7 @@ const ProfileScreen = () => {
         } else {
             const fetchOrders = async () => {
                 try {
-                    const { data } = await axios.get(`http://localhost:5000/api/orders/myorders/${userInfo._id}`);
+                    const { data } = await axios.get(`https://techshop-gj1f.onrender.com/api/orders/myorders/${userInfo._id}`);
                     setOrders(data);
                     setLoading(false);
                 } catch (error) {

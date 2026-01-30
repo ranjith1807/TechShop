@@ -16,7 +16,7 @@ const UserListScreen = () => {
         if (userInfo && userInfo.isAdmin) {
             const fetchUsers = async () => {
                 try {
-                    const { data } = await axios.get('http://localhost:5000/api/users');
+                    const { data } = await axios.get('https://techshop-gj1f.onrender.com/api/users');
                     setUsers(data);
                     setLoading(false);
                 } catch (error) {
