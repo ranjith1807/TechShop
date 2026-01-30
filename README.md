@@ -34,7 +34,7 @@ MongoDB Atlas account or local MongoDB installation
 ⚙️ Installation & Setup
 1. Clone the Repository
 Bash
-git clone https://github.com/your-username/techshop.git
+git clone https://github.com/ranjith1807/TechShop
 cd techshop
 2. Backend Setup
 Navigate to the root directory and install dependencies:
