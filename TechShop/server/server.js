@@ -11,7 +11,7 @@ const orderRoutes = require('./routes/orderRoutes');
 
 // Middleware
 app.use(cors({
-    origin: ["http://localhost:3000", "https://your-vercel-app-name.vercel.app"],
+    origin: ["http://localhost:3000", "https://tech-shop-ochre.vercel.app/"],
     credentials: true
 }));
 app.use(express.json());
