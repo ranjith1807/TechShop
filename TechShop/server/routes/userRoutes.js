@@ -5,8 +5,9 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
 // Generate JWT Token
+// FIXED: Use environment variable instead of hardcoded string
 const generateToken = (id) => {
-    return jwt.sign({ id }, 'secret123', { expiresIn: '30d' });
+    return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '30d' });
 };
 
 // @desc    Register new user
@@ -20,14 +21,12 @@ router.post('/', async (req, res) => {
         return;
     }
 
-    // Encrypt password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
+    // FIXED: Removed manual bcrypt hashing here.
+    // We pass the plain 'password' so the User Model middleware can hash it.
     const user = await User.create({
         name,
         email,
-        password: hashedPassword,
+        password, 
     });
 
     if (user) {
@@ -49,12 +48,14 @@ router.post('/login', async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
 
-    if (user && (await bcrypt.compare(password, user.password))) {
+    // FIXED: This check is correct. It compares the plain text password
+    // from the login form with the encrypted password in the DB.
+    if (user && (await user.matchPassword(password))) {
         res.json({
             _id: user._id,
             name: user.name,
             email: user.email,
-            isAdmin: user.isAdmin, // <--- IMPORTANT: Now sends Admin status to frontend
+            isAdmin: user.isAdmin,
             token: generateToken(user._id),
         });
     } else {
@@ -62,7 +63,7 @@ router.post('/login', async (req, res) => {
     }
 });
 
-// --- NEW ROUTE: Get All Users (Admin Only) ---
+// @desc    Get all users (Admin)
 // @route   GET /api/users
 router.get('/', async (req, res) => {
     try {
@@ -72,6 +73,5 @@ router.get('/', async (req, res) => {
         res.status(500).json({ message: 'Server Error' });
     }
 });
-// ---------------------------------------------
 
 module.exports = router;

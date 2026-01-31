@@ -2,19 +2,16 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
+dotenv.config();
 const Product = require('./models/productModel');
 const productRoutes = require('./routes/productRoutes'); // Keep this
 const userRoutes = require('./routes/userRoutes');
-dotenv.config();
+
 const app = express();
 const orderRoutes = require('./routes/orderRoutes');
 
 // Middleware
 app.use(cors());
-// app.use(cors({
-//     origin: ["http://localhost:3000", "https://tech-shop-ochre.vercel.app/"],
-//     credentials: true
-// }));
 app.use(express.json());
 app.use('/api/products', require('./routes/productRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
