@@ -100,7 +100,7 @@ const HomeScreen = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const { data } = await axios.get(`http://localhost:5000/api/products?keyword=${keyword || ''}`);
+                const { data } = await axios.get(`/api/products?keyword=${keyword || ''}`);
                 setProducts(data);
                 setLoading(false);
             } catch (error) {
@@ -162,7 +162,7 @@ const ProductScreen = () => {
     const [loading, setLoading] = useState(false); 
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/api/products/${id}`).then(res => setProduct(res.data));
+        axios.get(`/api/products/${id}`).then(res => setProduct(res.data));
     }, [id, refresh]);
 
     const addToCartHandler = () => {
@@ -174,7 +174,7 @@ const ProductScreen = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            await axios.post(`http://localhost:5000/api/products/${id}/reviews`, {
+            await axios.post(`/api/products/${id}/reviews`, {
                 rating,
                 comment,
                 user: userInfo

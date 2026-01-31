@@ -16,7 +16,7 @@ const OrderListScreen = () => {
         // Defined INSIDE useEffect to prevent crashes
         const fetchOrders = async () => {
             try {
-                const { data } = await axios.get('https://techshop-gj1f.onrender.com/api/orders');
+                const { data } = await axios.get('/api/orders');
                 setOrders(data);
                 setLoading(false);
             } catch (error) {
@@ -35,7 +35,7 @@ const OrderListScreen = () => {
     const deliverHandler = async (id) => {
         if (window.confirm('Mark this order as delivered?')) {
             try {
-                await axios.put(`https://techshop-gj1f.onrender.com/api/orders/${id}/deliver`);
+                await axios.put(`/api/orders/${id}/deliver`);
                 setRefresh(!refresh); // <--- Trigger reload to show green checkmark
                 alert('Order Delivered!');
             } catch (error) {

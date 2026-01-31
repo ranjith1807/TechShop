@@ -35,7 +35,7 @@ const ShippingScreen = () => {
                 user: userInfo._id,
             };
 
-            const { data } = await axios.post('http://localhost:5000/api/orders', orderData);
+            const { data } = await axios.post('/api/orders', orderData);
 
             // --- THE FIX: CLEAR THE CART ---
             dispatch(clearCartItems()); 

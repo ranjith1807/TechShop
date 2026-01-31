@@ -11,14 +11,14 @@ const OrderScreen = () => {
 
     useEffect(() => {
         const getPayPalClientId = async () => {
-            const { data: clientId } = await axios.get('http://localhost:5000/api/config/paypal');
+            const { data: clientId } = await axios.get('/api/config/paypal');
             setClientId(clientId);
         };
         getPayPalClientId();
 
         const fetchOrder = async () => {
             try {
-                const { data } = await axios.get(`http://localhost:5000/api/orders/${orderId}`);
+                const { data } = await axios.get(`/api/orders/${orderId}`);
                 setOrder(data);
                 setLoading(false);
             } catch (error) {
@@ -31,7 +31,7 @@ const OrderScreen = () => {
 
     const successPaymentHandler = async (paymentResult) => {
         try {
-            await axios.put(`http://localhost:5000/api/orders/${orderId}/pay`, paymentResult);
+            await axios.put(`/api/orders/${orderId}/pay`, paymentResult);
             alert('Payment Successful');
             window.location.reload(); 
         } catch (error) {
