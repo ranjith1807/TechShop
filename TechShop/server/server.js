@@ -10,10 +10,11 @@ const app = express();
 const orderRoutes = require('./routes/orderRoutes');
 
 // Middleware
-app.use(cors({
-    origin: ["http://localhost:3000", "https://tech-shop-ochre.vercel.app/"],
-    credentials: true
-}));
+app.use(cors());
+// app.use(cors({
+//     origin: ["http://localhost:3000", "https://tech-shop-ochre.vercel.app/"],
+//     credentials: true
+// }));
 app.use(express.json());
 app.use('/api/products', require('./routes/productRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));

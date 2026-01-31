@@ -11,7 +11,7 @@ const initialState = {
 
 export const login = createAsyncThunk('auth/login', async ({ email, password }, { rejectWithValue }) => {
     try {
-        const { data } = await axios.post('https://techshop-gj1f.onrender.com/api/users/login', { email, password });
+        const { data } = await axios.post('http://localhost:5000/api/users/login', { email, password });
         localStorage.setItem('userInfo', JSON.stringify(data));
         return data;
     } catch (error) {
@@ -21,7 +21,7 @@ export const login = createAsyncThunk('auth/login', async ({ email, password }, 
 
 export const register = createAsyncThunk('auth/register', async ({ name, email, password }, { rejectWithValue }) => {
     try {
-        const { data } = await axios.post('https://techshop-gj1f.onrender.com/api/users', { name, email, password });
+        const { data } = await axios.post('http://localhost:5000/api/users', { name, email, password });
         localStorage.setItem('userInfo', JSON.stringify(data));
         return data;
     } catch (error) {
