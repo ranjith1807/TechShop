@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Order = require('../models/orderModel');
+const { protect, admin } = require('../middleware/authMiddleware');
 
 // @desc    Create new order
 // @route   POST /api/orders
@@ -96,7 +97,7 @@ router.get('/myorders/:userId', async (req, res) => {
 });
 
 // @desc    Get all orders (Admin)
-router.get('/', async (req, res) => {
+router.get('/', protect, admin, async (req, res) => {
     try {
         const orders = await Order.find({}).populate('user', 'id name'); 
         res.json(orders);
@@ -106,7 +107,7 @@ router.get('/', async (req, res) => {
 });
 
 // @desc    Update order to delivered
-router.put('/:id/deliver', async (req, res) => {
+router.put('/:id/deliver', protect, admin, async (req, res) => {
     try {
         const order = await Order.findById(req.params.id);
 

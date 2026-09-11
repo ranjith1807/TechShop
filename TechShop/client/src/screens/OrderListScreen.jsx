@@ -16,7 +16,12 @@ const OrderListScreen = () => {
         // Defined INSIDE useEffect to prevent crashes
         const fetchOrders = async () => {
             try {
-                const { data } = await axios.get('/api/orders');
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${userInfo.token}`,
+                    },
+                };
+                const { data } = await axios.get('/api/orders', config);
                 setOrders(data);
                 setLoading(false);
             } catch (error) {
@@ -35,7 +40,12 @@ const OrderListScreen = () => {
     const deliverHandler = async (id) => {
         if (window.confirm('Mark this order as delivered?')) {
             try {
-                await axios.put(`/api/orders/${id}/deliver`);
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${userInfo.token}`,
+                    },
+                };
+                await axios.put(`/api/orders/${id}/deliver`, {}, config);
                 setRefresh(!refresh); // <--- Trigger reload to show green checkmark
                 alert('Order Delivered!');
             } catch (error) {

@@ -17,7 +17,7 @@ const ProductListScreen = () => {
         const fetchProducts = async () => {
             try {
                 const { data } = await axios.get('/api/products');
-                setProducts(data);
+                setProducts(data.products || data);
                 setLoading(false);
             } catch (error) {
                 console.error(error);

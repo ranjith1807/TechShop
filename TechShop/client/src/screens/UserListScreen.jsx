@@ -16,7 +16,12 @@ const UserListScreen = () => {
         if (userInfo && userInfo.isAdmin) {
             const fetchUsers = async () => {
                 try {
-                    const { data } = await axios.get('/api/users');
+                    const config = {
+                        headers: {
+                            Authorization: `Bearer ${userInfo.token}`,
+                        },
+                    };
+                    const { data } = await axios.get('/api/users', config);
                     setUsers(data);
                     setLoading(false);
                 } catch (error) {

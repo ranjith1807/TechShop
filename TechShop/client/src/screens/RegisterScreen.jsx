@@ -23,11 +23,24 @@ const RegisterScreen = () => {
 
     const submitHandler = (e) => {
         e.preventDefault();
+        setMessage(null);
+        
+        // Validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            setMessage('Please enter a valid email address');
+            return;
+        }
+        if (password.length < 8) {
+            setMessage('Password must be at least 8 characters long');
+            return;
+        }
         if (password !== confirmPassword) {
             setMessage('Passwords do not match');
-        } else {
-            dispatch(register({ name, email, password }));
+            return;
         }
+        
+        dispatch(register({ name, email, password }));
     };
 
     return (

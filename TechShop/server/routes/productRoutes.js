@@ -1,10 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const Product = require('../models/productModel');
+const { protect, admin } = require('../middleware/authMiddleware');
 
-// @desc    Fetch all products (WITH SEARCH)
+// @desc    Fetch all products (WITH SEARCH & PAGINATION)
 router.get('/', async (req, res) => {
     try {
+        const pageSize = 8;
+        const page = Number(req.query.pageNumber) || 1;
+
         const keyword = req.query.keyword ? {
             name: {
                 $regex: req.query.keyword,
@@ -12,8 +16,12 @@ router.get('/', async (req, res) => {
             },
         } : {};
 
-        const products = await Product.find({ ...keyword });
-        res.json(products);
+        const count = await Product.countDocuments({ ...keyword });
+        const products = await Product.find({ ...keyword })
+            .limit(pageSize)
+            .skip(pageSize * (page - 1));
+
+        res.json({ products, page, pages: Math.ceil(count / pageSize) });
     } catch (error) {
         res.status(500).json({ message: 'Server Error' });
     }
@@ -94,7 +102,7 @@ router.post('/:id/reviews', async (req, res) => {
 });
 
 // --- ADMIN ROUTES ---
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', protect, admin, async (req, res) => {
     try {
         const product = await Product.findById(req.params.id);
         if (product) {
@@ -108,7 +116,7 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', protect, admin, async (req, res) => {
     try {
         const product = new Product({
             name: 'Sample Name',
@@ -130,7 +138,7 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', protect, admin, async (req, res) => {
     const { name, price, description, image, brand, category, countInStock } = req.body;
     try {
         const product = await Product.findById(req.params.id);

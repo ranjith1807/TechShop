@@ -6,6 +6,7 @@ import { login } from '../slices/authSlice';
 const LoginScreen = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [message, setMessage] = useState(null);
     
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -19,6 +20,14 @@ const LoginScreen = () => {
 
     const submitHandler = (e) => {
         e.preventDefault();
+        setMessage(null);
+        
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            setMessage('Please enter a valid email address');
+            return;
+        }
+
         dispatch(login({ email, password }));
     };
 
@@ -26,6 +35,7 @@ const LoginScreen = () => {
         <div className="flex justify-center items-center min-h-[80vh]">
             <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-md border">
                 <h1 className="text-2xl font-bold mb-6 text-center">Sign In</h1>
+                {message && <div className="bg-red-100 text-red-700 p-3 rounded mb-4">{message}</div>}
                 {error && <div className="bg-red-100 text-red-700 p-3 rounded mb-4">{error}</div>}
                 <form onSubmit={submitHandler}>
                     <div className="mb-4">
@@ -53,7 +63,8 @@ const LoginScreen = () => {
                     </button>
                 </form>
                 <div className="mt-4 text-center">
-                    New Customer? <Link to="/register" className="text-blue-500 hover:underline">Register</Link>
+                    New Customer? <Link to="/register" className="text-blue-500 hover:underline mr-4">Register</Link>
+                    <Link to="/forgotpassword" className="text-gray-500 hover:text-blue-500 hover:underline">Forgot Password?</Link>
                 </div>
             </div>
         </div>
