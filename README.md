@@ -1,124 +1,168 @@
-Tech Shop
+TechShop 🛒
+TechShop is a complete e-commerce platform built with the MERN stack (MongoDB, Express, React, Node.js). It provides a seamless shopping experience for customers and a robust management system for administrators.
 
-A complete, full-stack MERN e-commerce platform featuring product management, a robust shopping cart, and secure checkout processing.
+🚀 Features
+Customer Features:
 
-📝 Description
+Browse latest products with search and pagination functionalities.
 
-Tech Shop is a modern, production-oriented e-commerce web application. It delivers a frictionless shopping experience from product discovery to payment finalization. The application pairs a highly responsive React frontend with a scalable Node/Express backend, utilizing Redux Toolkit for seamless state synchronization and the PayPal SDK for secure financial transactions.
+View detailed product information, including stock status and user reviews.
 
-✨ Features
+Add items to the shopping cart with persistent local storage.
 
-Comprehensive Shopping Cart: Add, remove, and adjust product quantities with real-time pricing updates.
+Secure user authentication (Login, Registration) with JWT.
 
-Secure Payment Integration: End-to-end checkout process powered by the PayPal SDK.
+Password reset functionality utilizing crypto token hashing.
 
-Product Catalog & Search: Browse extensive product listings with integrated search and pagination.
+Checkout process with shipping address and PayPal integration.
 
-User Authentication: Secure registration and login workflows.
+User profile and personal order history tracking.
 
-Order Management: Users can view their order history and track payment/delivery status.
+Contact form to send support messages to administrators.
 
-Admin Dashboard: Dedicated administrative controls for managing users, products, and incoming orders.
+Admin Features:
 
-Product Reviews: Authenticated users can leave ratings and reviews on purchased items.
+Dashboard Access: Secure routes protected by admin middleware.
 
-🏗️ Tech Stack
+Product Management: Create, read, update, and delete products.
 
-Frontend Framework: React.js
+User Management: View all registered users.
 
-State Management: Redux Toolkit
+Order Management: View all orders and mark them as delivered.
 
-Backend Environment: Node.js
+Support Management: Read and manage user contact messages.
 
-API Framework: Express.js
+🛠️ Tech Stack
+Frontend:
 
-Database: MongoDB & Mongoose ORM
+React.js (Vite)
 
-Payment Processing: PayPal SDK
+Redux Toolkit (State management for Cart and Auth)
 
-🚀 Getting Started
+React Router DOM
 
-Prerequisites
+Tailwind CSS (Styling)
 
-Node.js (v16 or higher)
+React PayPal JS (Payment gateway)
 
-npm or yarn
+React Toastify (Notifications)
 
-A local or cloud MongoDB URI (e.g., MongoDB Atlas)
+React Icons
 
-A PayPal Developer account (for Client ID)
+Backend:
 
-Installation
+Node.js & Express.js
 
-Clone the repository:
+MongoDB & Mongoose (ODM)
 
-git clone https://github.com/ranjith1807/TechShop.git
-cd TechShop
+JSON Web Token (JWT) for authentication
 
+bcryptjs for password hashing
 
-Install Backend Dependencies:
+Crypto (Built-in Node module for password reset tokens)
 
-npm install
+⚙️ Environment Variables
+Create a .env file in the root of your backend directory and add the following:
 
-
-Install Frontend Dependencies:
-
-cd frontend
-npm install
-cd ..
-
-
-Environment Variables:
-Create a .env file in the root directory and configure the following:
-
+Code snippet
 NODE_ENV=development
 PORT=5000
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret_key
 PAYPAL_CLIENT_ID=your_paypal_client_id
+📦 Installation & Setup
+Clone the repository
 
+Bash
+git clone https://github.com/yourusername/techshop.git
+cd techshop
+Install Backend Dependencies
 
-Run the Application (Concurrently):
+Bash
+npm install
+Install Frontend Dependencies
 
-# From the root directory, starts both backend and frontend servers
+Bash
+cd frontend
+npm install
+Run the Application (Development Mode)
+You can run the frontend and backend concurrently.
+
+To start the backend server (from the root directory):
+
+Bash
+npm run server
+# Server will start on http://localhost:5000
+To start the frontend client (from the frontend directory):
+
+Bash
 npm run dev
-
-
-The frontend will run on http://localhost:3000
-
-The backend API will run on http://localhost:5000
-
+# Client will start on http://localhost:5173
 📂 Project Structure
-
-TechShop/
-├── backend/            # Express server, controllers, models, and routes
-│   ├── config/         # Database and environment configurations
-│   ├── controllers/    # Route logic (Products, Users, Orders)
-│   ├── middleware/     # Custom auth and error handling
-│   ├── models/         # Mongoose database schemas
-│   └── routes/         # Express API routing definitions
-├── frontend/           # React application
+Plaintext
+├── frontend/                # React client application
 │   ├── src/
-│   │   ├── components/ # Reusable UI components
-│   │   ├── screens/    # Page-level views (Home, Cart, Checkout)
-│   │   └── slices/     # Redux Toolkit state slices and API endpoints
-├── .env                # Secret keys and configuration
-└── package.json        # Root scripts and backend dependencies
+│   │   ├── components/      # Reusable UI components (Header, Footer, etc.)
+│   │   ├── screens/         # Page views (HomeScreen, CartScreen, Admin screens)
+│   │   ├── slices/          # Redux Toolkit slices (authSlice, cartSlice)
+│   │   ├── App.jsx          # Main application routing
+│   │   └── store.js         # Redux store configuration
+├── backend/                 # Node/Express server application
+│   ├── middleware/          # Custom middleware (authMiddleware)
+│   ├── models/              # Mongoose database schemas (User, Product, Order, Contact)
+│   ├── routes/              # Express API routes
+│   └── server.js            # Server entry point
+└── package.json             
+🔗 API Endpoints
+Products
 
+GET /api/products - Fetch all products (supports ?keyword= and ?pageNumber=)
 
-🤝 Contributing
+GET /api/products/:id - Fetch single product
 
-Contributions, issues, and feature requests are welcome!
+POST /api/products/:id/reviews - Create a product review
 
-Fork the project.
+POST /api/products - Create a product (Admin)
 
-Create your feature branch: git checkout -b feature/NewFeature
+PUT /api/products/:id - Update a product (Admin)
 
-Commit your changes: git commit -m 'Add NewFeature'
+DELETE /api/products/:id - Delete a product (Admin)
 
-Push to the branch: git push origin feature/NewFeature
+Users
 
-Open a pull request.
+POST /api/users - Register a new user
+
+POST /api/users/login - Authenticate user & get token
+
+POST /api/users/forgotpassword - Generate password reset token
+
+PUT /api/users/resetpassword/:token - Reset user password
+
+GET /api/users - Get all users (Admin)
+
+Orders
+
+POST /api/orders - Create a new order
+
+GET /api/orders/:id - Get order by ID
+
+PUT /api/orders/:id/pay - Update order to paid
+
+GET /api/orders/myorders/:userId - Get logged-in user's orders
+
+GET /api/orders - Get all orders (Admin)
+
+PUT /api/orders/:id/deliver - Update order to delivered (Admin)
+
+Contact
+
+POST /api/contact - Submit a contact message
+
+GET /api/contact - Get all contact messages (Admin)
+
+PUT /api/contact/:id/read - Mark message as read (Admin)
+
+DELETE /api/contact/:id - Delete a message (Admin)
 
 📄 License
 
